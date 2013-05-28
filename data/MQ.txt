@@ -1,0 +1,7 @@
+Studie von Markus Quirin:
+
+- n = 81 Personen
+- 6 Bilder (Standard-Set)
+- 4225 Sätze gesamt
+- Satzweise kodiert, ohne 2.-Satz-Regel
+- pow2, ach2, und aff2 enthalten die errechneten Kodierungen, wenn man die 2.-Satz-Regel nachträglich anwendet
