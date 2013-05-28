@@ -1,0 +1,7 @@
+Datensatz mit n = 386 Personen; jeweils Vater, Mutter, und zwei erwachsene Kinder einer Familie.
+PSE mit 6 Bildern (OCS Standard-Set), Winter-Schlüssel.
+
+Es waren 2 bis 4 Kodierer pro Geschichte, die finalen Scores wurden gemittelt (daher können Kommawerte drin stehen)
+
+Zusätzliche Variablen:
+- gid: Die ID der Familie. Es ist also ein hierarchischer Datensatz mit jeweils 4 Personen genested in einer Familie.
