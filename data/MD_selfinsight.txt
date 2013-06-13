@@ -1,0 +1,8 @@
+# Datenformat PSE
+
+- Missings in den Motivwerten bedeuten, dass dieses Motiv als 99 kodiert wurde. Invalide PSEs wurden gelöscht.
+- zusätzliche Variablen
+	- **text** PSE text. Wenn der Text mit "**//autofin" endet, wurden die Probanden unterbrochen, haben also nicht zwischen 4 und 5 Minuten auf Absenden geklickt. Dieses Wort sollte man vor der Texterkennung löschen.
+	- **diary.day** Tagebuchtag (intraindividueller Rang, also das wievielte Mal füllt Proband das Tagebuch aus). Allen Probanden wurden die PSEs in dementsprechenden Reihenfolge gezeigt.
+	- **story.validity** Wenn nicht leer (empty string or NA), Kommentar, warum PSE invalide ist. Da invalide PSEs gelöscht wurden, immer leer.
+	

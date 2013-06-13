@@ -2,7 +2,8 @@ library(lme4)
 library(plyr)
 library(ggplot2)
 
-dat <- read.table("../../data/MQ.tab", header=TRUE)
+#dat <- read.table("../../data/MQ.tab", header=TRUE)
+dat <- read.table("../../data/FS_MOCO.tab", header=TRUE)
 
 ## ======================================================================
 ## Compute additional variables
@@ -69,6 +70,8 @@ rownames(REL) <- c("pow", "ach", "aff")
 colnames(REL) <- c("ohne 2-Satz", "mit 2-Satz")
 round(REL, 3)
 
+
+
 ## collect reliabilities from all motives, using also random effects for interactions of pid:pic
 ## todo: use rbind?
 REL <- matrix(c(
@@ -108,13 +111,13 @@ glmer(ach ~ wc.p + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
 glmer(aff ~ wc.p + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
 glmer(pow ~ wc.p + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
 
-glmer(ach ~ wc.s + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
-glmer(aff ~ wc.s + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
-glmer(pow ~ wc.s + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
+glmer(ach ~ wc.s + (1|pic) + (1|pid) + (1|unit), dat, family=binomial(link="logit"))
+glmer(aff ~ wc.s + (1|pic) + (1|pid) + (1|unit), dat, family=binomial(link="logit"))
+glmer(pow ~ wc.s + (1|pic) + (1|pid) + (1|unit), dat, family=binomial(link="logit"))
 
-glmer(ach ~ wc.p + wc.s + sc + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
-glmer(aff ~ wc.p + wc.s + sc + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
-glmer(pow ~ wc.p + wc.s + sc + (1|pic) + (1|pid), dat, family=binomial(link="logit"))
+glmer(ach ~ wc.p + wc.s + sc + (1|pic) + (1|pid) + (1|unit), dat, family=binomial(link="logit"))
+glmer(aff ~ wc.p + wc.s + sc + (1|pic) + (1|pid) + (1|unit), dat, family=binomial(link="logit"))
+glmer(pow ~ wc.p + wc.s + sc + (1|pic) + (1|pid) + (1|unit), dat, family=binomial(link="logit"))
 
 ## ======================================================================
 ## IRT: Tuerlinckx-Style (dichotomize on picture level)

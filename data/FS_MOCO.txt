@@ -1,0 +1,9 @@
+Studie von Felix Schönbrodt:
+
+- n = 103 Personen
+- 8 Bilder: 
+	- 3 aus Standardset: "nightclub", "ship_captain", "trapeze"      
+	- 5 Bilder vom TAT: "canyon", "group", "violin", "window", "woman"
+- 4797 Sätze gesamt
+- Satzweise kodiert, ohne 2.-Satz-Regel
+- pow2, ach2, und aff2 enthalten die errechneten Kodierungen, wenn man die 2.-Satz-Regel nachträglich anwendet

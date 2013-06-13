@@ -1,0 +1,73 @@
+Identisch aufgebaute Datensätze erlauben, dass Modellsyntaxen ohne Anpassungen angewendet werden können. Daher ist es wichtig, dass die Datensätze exakt so aufgebaut sind wie hier beschrieben.
+
+1. Datenformat:
+-----------------------------
+
+Bitte als tab-delimited Datei abspeichern (d.h., die einzelnen Zellen in einer Zeile sind mit Tab-Stops getrennt). Kodierung = UTF-8 (da in den PSE-Texten viele Umlaute etc. vorkommen ist ASCII suboptimal)
+
+Erste Zeile = header mit Variablennamen
+
+Der Datensatz soll im Long-Format sein, so dass jede Zeile der Kodierung eines Bildes entspricht. (Siehe Beispieldatensatz unten).
+
+Missings sind einfach leere Zellen im Datensatz (also nicht mit 9999 oder sonst was kodieren).
+
+Alle String-Variablen in Hochkommata stellen.
+
+Dezimaltrenner ist Punkt, nicht Komma.
+
+Dateiname entspricht der Study-ID (siehe Punkt 2) + ".tab", also z.B. "FS_family.tab"
+
+Keine Zeilennamen.
+
+(hier wäre der Befehl für R: write.table(dat, file="export/FS_family.tab", sep="\t", na="", dec=".", row.names=FALSE))
+
+
+2. Variablen(namen)
+-----------------------------
+
+Die ersten 9 Variablen sollten in allen Datensätzen gleich sein:
+
+- study_id: Eindeutig ID für die Studie. Sollte folgendes Format haben: Initialen des Bereitstellers + "_" + Kürzel, also z.B.: FS_family
+- pid: Personen-ID. Kann eine Nummer oder ein String oder sonstwas sein.
+- sex: Geschlecht der Person, entweder ein "m" oder ein "f"
+- age: Alter der Person
+- pic: Eine eindeutige ID für das Bild in dieser Zeile. Dabei unbedingt an die Liste von Holger halten.
+- wc: word count über alle Bilder summiert
+- pow: Die Powerkodierungen für dieses Bild (0, 1, 2, ...) - also Rohkodierungen, keine density scores oder Residualwerte
+- ach: Die Achievementkodierungen für dieses Bild
+- aff: Die Affiliationskodierungen für dieses Bild
+
+Falls Informationen nicht vorliegen (z.B. Alter), einfach als Missings lassen (ev. die komplette Spalte), aber auf jeden Fall die Spalte drin lassen.
+
+
+Ab Spalte 9 folgen dann optionale Variablen, die von Datensatz zu Datensatz unterschiedlich sein können. Wenn der Text der PSE-Geschichte vorliegt kann der im Datensatz eingebaut werden (bitte Variablennamen "text" verwenden). Falls activity inhibition gemessen wurde: "AI".
+
+
+3. Codebuch
+-----------------------------
+
+Zu jeder Datendatei gehört eine Textdatei mit dem selben Namen der Datendatei ("FS_family.txt"), die kurz die Studie beschreibt und kurze Informationen über die zusätzlichen Validierungskriterien liefert. Das muss nicht ausführlich sein - nur so viel, dass man die Variablen versteht und damit arbeiten kann.
+
+
+4. Beispieldatensatz
+-----------------------------
+
+So sollte das dann aussehen. (gid ist eine zusätzliche Variable die die Gruppenzugehörigkeit der Vpn angibt).
+
+"study_id"	"pid"	"sex"	"age"	"pic"	"wc"	"pow"	"ach"	"aff"	"gid"
+"FS_family"	"10_37"	"f"	19	"couple_bridge"	832	0	0	3	"10"
+"FS_family"	"10_37"	"f"	19	"nightclub"	832	3	0	2.75	"10"
+"FS_family"	"10_37"	"f"	19	"women_laboratory"	832	1	3	1	"10"
+"FS_family"	"10_37"	"f"	19	"ship_captain"	832	1	0	2	"10"
+"FS_family"	"10_37"	"f"	19	"trapeze"	832	1	2	0	"10"
+"FS_family"	"10_37"	"f"	19	"boxer"	832	0	2	0	"10"
+"FS_family"	"10_38"	"f"	53	"couple_bridge"	223	0	0	3	"10"
+"FS_family"	"10_38"	"f"	53	"nightclub"	223	0	0	3.25	"10"
+"FS_family"	"10_38"	"f"	53	"women_laboratory"	223	0	0	0	"10"
+"FS_family"	"10_38"	"f"	53	"ship_captain"	223	0	0	0	"10"
+"FS_family"	"10_38"	"f"	53	"trapeze"	223	0	1.25	0	"10"
+"FS_family"	"10_38"	"f"	53	"boxer"	223	0.25	1.75	0	"10"
+"FS_family"	"10_39"	"m"	53	"couple_bridge"	268	1	0.75	1	"10"
+"FS_family"	"10_39"	"m"	53	"nightclub"	268	0	0.75	1.5	"10"
+"FS_family"	"10_39"	"m"	53	"women_laboratory"	268	0	0.5	0	"10"
+"FS_family"	"10_39"	"m"	53	"ship_captain"	268	0	0.5	0	"10"
