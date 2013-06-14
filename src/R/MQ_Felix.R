@@ -2,13 +2,10 @@ library(lme4)
 library(plyr)
 library(ggplot2)
 
-#dat <- read.table("../../data/MQ.tab", header=TRUE)
-dat <- read.table("../../data/FS_MOCO.tab", header=TRUE)
-
 ## ======================================================================
 ## Compute additional variables
 ## ======================================================================
-
+prepare.data <- function (dat) {
 dat$text <- as.character(dat$text)
 
 # compute sentence count on person level: sc
@@ -23,9 +20,16 @@ dat$wc.s <- sapply(strsplit(dat$text, " ", fixed=TRUE), length)
 wc.p <- ddply(dat, .(pid), function(df) sum(df$wc.s))
 colnames(wc.p)[2] <- "wc.p"
 dat <- merge(dat, wc.p, by="pid")
+invisible(dat)
+}
+
+
+#dat <- prepare.data(read.table("../../data/MQ.tab", header=TRUE))
+dat <- prepare.data(read.table("../../data/FS_MOCO.tab", header=TRUE))
 
 # correlations of word and sentence counts
 cor(dat[, c("wc.s", "wc.p", "sc")])
+
 
 ## ======================================================================
 ## IRT-Analyses
