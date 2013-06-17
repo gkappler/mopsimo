@@ -1,0 +1,70 @@
+# Author: Georg Hosoya
+
+model
+{
+  # Likelihood
+
+  for(i in 1:n)
+  {
+    
+    # Linear decomposition
+    lambda[1,i]<-0
+    lambda[2,i]<-beta1[item[i]]+theta1[id[i]]
+    lambda[3,i]<-beta2[item[i]]+theta2[id[i]]
+    lambda[4,i]<-beta3[item[i]]+theta3[id[i]]
+     
+   
+    # Partition function
+
+    Z[i]<- exp(lambda[1,i])+exp(lambda[2,i])+
+           exp(lambda[3,i])+exp(lambda[4,i])
+
+    for(c in 1:4)
+    {
+      p[i,c]<-exp(lambda[c,i])/Z[i]
+    }
+    y[i]~dcat(p[i,1:4])
+  }
+  
+  # Priors
+  
+  for(i in 1:8)
+  {
+    beta1[i]~dnorm(0,1.0E-6)
+    beta2[i]~dnorm(0,1.0E-6)
+    beta3[i]~dnorm(0,1.0E-6)
+  }
+    
+  # Scaled inverse Wishart distribution as prior
+  # of the variance-covariance matrix of traits.
+  # See Gelman and Hill (2007), section 13.3. and p. 377
+
+ for(i in 1:103)
+ {
+    theta1[i]<-xi.theta1*theta.raw[i,1]
+    theta2[i]<-xi.theta2*theta.raw[i,2]
+    theta3[i]<-xi.theta3*theta.raw[i,3]
+    theta.raw[i,1:3]~dmnorm(theta.raw.hat[i,],tau.theta.raw[,])
+    theta.raw.hat[i,1]<-mu.theta1.raw
+    theta.raw.hat[i,2]<-mu.theta2.raw
+    theta.raw.hat[i,3]<-mu.theta3.raw 
+ }
+    mu.theta1<-xi.theta1*mu.theta1.raw
+    mu.theta2<-xi.theta2*mu.theta2.raw
+    mu.theta3<-xi.theta3*mu.theta3.raw
+    mu.theta1.raw<-0
+    mu.theta2.raw<-0
+    mu.theta3.raw<-0
+    xi.theta1~dunif(0,100)
+    xi.theta2~dunif(0,100)
+    xi.theta3~dunif(0,100)
+    tau.theta.raw[1:3,1:3] ~ dwish(W[,],df)
+    df<-4
+    sigma.theta.raw[1:3,1:3]<-inverse(tau.theta.raw[,])
+    sigma.theta1<-xi.theta1*sqrt(sigma.theta.raw[1,1])
+    sigma.theta2<-xi.theta2*sqrt(sigma.theta.raw[2,2])
+    sigma.theta3<-xi.theta3*sqrt(sigma.theta.raw[3,3])
+    rho_theta12<-sigma.theta.raw[1,2]/sqrt(sigma.theta.raw[1,1]*sigma.theta.raw[2,2])
+    rho_theta13<-sigma.theta.raw[1,3]/sqrt(sigma.theta.raw[1,1]*sigma.theta.raw[3,3])
+    rho_theta23<-sigma.theta.raw[2,3]/sqrt(sigma.theta.raw[2,2]*sigma.theta.raw[3,3])    
+}
