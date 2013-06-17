@@ -75,27 +75,39 @@ colnames(REL) <- c("ohne 2-Satz", "mit 2-Satz")
 round(REL, 3)
 
 
+## same results as above
+round (compute.reliabilities(" ~ 1 + (1|pic) + (1|pid)"),3)
+
+
+## collect reliabilities from all motives
+compute.reliabilities <- function (dat,formula,colname,
+                                   cols=c("pow", "ach", "aff",
+                                     "pow2", "ach2", "aff2")) {
+  REL <- matrix(
+    sapply(paste(cols,
+                 formula),
+           function (x) getRel(x,dat,plot=FALSE)$rel),
+    ncol=1, byrow=TRUE)
+  
+  rownames(REL) <- cols
+  colnames(REL) <- colname
+  return (REL)
+}
+
+REL <- cbind(
+  compute.reliabilities(dat,
+                      " ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic))",
+                      "iact"),
+  compute.reliabilities(dat,
+                      " ~ 1 + (1|pic) + (1|pid)",
+                      "main"))
+
+round(REL,3)
+
 
 ## collect reliabilities from all motives, using also random effects for interactions of pid:pic
-## todo: use rbind?
-REL <- matrix(c(
-  getRel(pow ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic)),
-         dat, plot=FALSE)$rel,
-  getRel(pow2 ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic)),
-         dat, plot=FALSE)$rel,
-  getRel(ach ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic)),
-         dat, plot=FALSE)$rel,
-  getRel(ach2 ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic)),
-         dat, plot=FALSE)$rel,
-  getRel(aff ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic)),
-         dat, plot=FALSE)$rel,
-  getRel(aff2 ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic)),
-         dat, plot=FALSE)$rel),
-              ncol=2, byrow=TRUE,
-)
-rownames(REL) <- c("pow", "ach", "aff")
-colnames(REL) <- c("ohne 2-Satz", "mit 2-Satz")
-round(REL, 3)
+compute.reliabilities(dat," ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic))")
+compute.reliabilities(dat1," ~ 1 + (1|pic) + (1|pid) + (1|interaction(pid,pic))")
 
 	
 # ---------------------------------------------------------------------
