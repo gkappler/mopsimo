@@ -1,4 +1,4 @@
-# Experimental. No warranty.
+# Experimental.
 
 # Load required libraries
 library(lme4)
@@ -14,11 +14,11 @@ select=which(check==1 | check==0)
 data<-data[select,]
 resp<-cbind(data$pow, data$aff, data$ach)
  
-# Extract unique picture an person ids
+# Extract unique picture and person ids
 unique_pid<-unique(data$pid)
 unique_pic<-unique(data$pic)
 
-# Convert data in long format
+# Convert data into long format
 n=dim(data)[1]
 id<-c(0)
 item<-c(0)
@@ -66,11 +66,12 @@ parameters<-c( "beta1","beta2","beta3", "theta1", "theta2", "theta3",
 #}
 
 
-# Fit model (Chuck Norris does not need inits ;) )
+# Fit model without inits
 output<-jags(data, inits=NULL, parameters, model.file="moco_mult_logit_cov.txt",
     n.chains=2, n.iter=4000, n.burnin=2000)
 
 attach.jags(output)
+plot(output)
 
 # Estimate reliabilities by Andrich's method.
 

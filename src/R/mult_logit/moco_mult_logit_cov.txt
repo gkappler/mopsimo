@@ -1,4 +1,4 @@
-# Author: Georg Hosoya
+# Experimental.
 
 model
 {
